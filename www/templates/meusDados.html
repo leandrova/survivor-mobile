@@ -1,0 +1,27 @@
+<ion-view title="Meus Dados" id="page10" class=" ">
+    <ion-nav-bar class="bar-balanced">
+      <ion-nav-buttons side="left">
+          <button class="button button-icon ion-person" ng-click="meusDados()"></button>
+      </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+        <button class="button button-icon ion-close-circled" ng-click="logOut()"></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content padding="true" class="has-header">
+        <form id="meusDados-form5" class="list ">
+            <label class="item item-input item-stacked-label " id="meusDados-input5">
+                <input type="text" placeholder="E-mail" ng-model="formData.user" >
+            </label>
+            <label class="item item-input item-stacked-label " id="meusDados-input6">
+                <input type="password" placeholder="Senha" ng-model="formData.pass" >
+            </label>
+            <label class="item item-input item-stacked-label " id="meusDados-input7">
+                <input type="password" placeholder="Repitir senha" ng-model="formData.pass2" >
+            </label>
+            <label class="item item-input item-stacked-label " id="meusDados-input8">
+                <input type="tel" placeholder="Telefone" ng-model="formData.tele" >
+            </label>
+        </form>
+        <button id="meusDados-button10" class=" button button-balanced  button-block ">Atualizar Dados</button>
+    </ion-content>
+</ion-view>

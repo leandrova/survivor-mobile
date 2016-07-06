@@ -1,0 +1,35 @@
+<ion-view title="Survivor" id="page6" hide-nav-bar="truee">
+    <ion-nav-bar class="bar-balanced">
+      <ion-nav-buttons side="left">
+          <button class="button button-icon ion-person" ng-click="meusDados()"></button>
+      </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+        <button class="button button-icon ion-close-circled" ng-click="logOut()"></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content padding="true" class="">
+
+      <div ng-if="loading" class="loading"></div>
+
+      <div ng-if="listMap">
+        <ion-list id="survivor-list-1">
+          <ion-item class="item-divider" id="survivor-list-item-divider-1">Mapa</ion-item>
+        </ion-list>
+        <div class="item item-body row" id="survivor-list-item-container-5">
+          <div class="col">Time</div>
+          <div class="col">Rodada</div>
+          <div class="col">Resultado</div>
+        </div>
+        <div ng-repeat="item in listMap" class="item item-body row" id="survivor-list-item-container-5">
+          <div class="col">
+            <img style="width:30px" src="./img/escudos/{{item.siglaTime}}.png" title="{{item.nomeTime}}">
+            &nbsp;{{item.siglaTime}}
+          </div>
+          <div class="col">{{item.codigoRodada}}</div>
+          <div class="col">{{item.resultado}}</div>
+        </div>
+
+      </div>
+
+    </ion-content>
+</ion-view>
