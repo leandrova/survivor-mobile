@@ -41,38 +41,6 @@ angular.module('app.controllers', ['ionic'])
           }
         }
       );
-      // $http({
-      //   method: 'POST',
-      //   url: 'http://localhost:3000/authentication',
-      //   headers: {
-      //     'service-name': 'local',
-      //     'service-token': '12345'
-      //   },
-      //   data: {
-      //     user: formData.user,
-      //     pass: formData.pass,
-      //     saveSession: formData.saveSession
-      //   },
-      //   async: true,
-      //   withCredentials: false,
-      //   timeout: 1000,
-      //   cache: false
-      // }).then(function successCallback(response, json) {
-
-      //   if (response.status == 200){
-      //     if (!response.data.reason.status){
-      //       $scope.alert = sendAlert.bind('Red',response.data.reason.description);
-      //     } else {
-      //       $state.go('tabsController.survivor');
-      //       sessionCtrl.set('token',response.data.authentication.token);
-      //     }
-      //   } else {
-      //     $scope.alert = sendAlert.bind('Red','Ops! Tente mais tarde.');
-      //   }
-      // }, function errorCallback(response) {
-      //   console.log(response);
-      //   $scope.alert = sendAlert.bind('Red','Ops!! Tente mais tarde.');
-      // });
     }
 
     //
@@ -93,18 +61,19 @@ angular.module('app.controllers', ['ionic'])
 
   $scope.loading = true;
 
-  $scope.map = true;
-
   map(
     function (response){
       if (response.reason.status){
+        $scope.map = true;
         $scope.title = response.title;
         $scope.listMap = response.list
+        $scope.loading = false;
+      } else {
+        sessionCtrl.clear();
+        $state.go('login');
       }
     }
   );
-
-  $scope.loading = false;
 
   $scope.logOut = function(){
     sessionCtrl.clear();
