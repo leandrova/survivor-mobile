@@ -1,12 +1,15 @@
 angular.module('app.controllers', ['ionic'])
 
-.controller('loginCtrl', function($scope, $state, $http, sendAlert, sessionCtrl, authentication) {
+.controller('loginCtrl', function($scope, $state, $http, sendAlert, sessionCtrl, authentication, animationShake) {
 
   if (sessionCtrl.get('token')){
     $state.go('tabsController.survivor');
   }
 
-  $scope.authentication = function(formData) {
+  $scope.login = true;
+
+  $scope.authentication = function(formData) {;
+    $scope.loading = true;
 
     if (typeof formData == 'undefined' ){
       var user = false;
@@ -19,17 +22,16 @@ angular.module('app.controllers', ['ionic'])
     }
 
     if ((!user)&&(!pass)){
-      $scope.userRed = 'inputRed'
-      $scope.passRed = 'inputRed'
+      animationShake.inc($scope, 'userAnime');
+      animationShake.inc($scope, 'passAnime');
+      $scope.loading = false;
     } else if (!user){
-      $scope.userRed = 'inputRed'
-      $scope.passRed = 'inputNormal'
+      animationShake.inc($scope, 'userAnime');
+      $scope.loading = false;
     } else if (!pass){
-      $scope.userRed = 'inputNormal'
-      $scope.passRed = 'inputRed'
+      animationShake.inc($scope, 'passAnime');
+      $scope.loading = false;
     } else {
-      // $state.go('tabsController.survivor');
-      // sessionCtrl.set('token',1);
       authentication(
         formData,
         function (response){
@@ -38,12 +40,12 @@ angular.module('app.controllers', ['ionic'])
             $state.go('tabsController.survivor');
           } else {
             $scope.alert = sendAlert.bind('Red',response.description);
+            $scope.loading = false;
+            animationShake.inc($scope, 'btnAnime');
           }
         }
       );
     }
-
-    //
   };
 
   $scope.logOut = function(){
@@ -88,8 +90,10 @@ angular.module('app.controllers', ['ionic'])
 
 .controller('mapaCtrl', function($scope, $state, sessionCtrl) {
 
+  console.log(sessionCtrl.get('token'));
   if (!sessionCtrl.get('token')){
       $state.go('login');
+      console.log(1);
   }
 
   $scope.logOut = function(){
@@ -120,7 +124,7 @@ angular.module('app.controllers', ['ionic'])
 
 })
 
-.controller('rodadasCtrl', function($scope, $state, sessionCtrl) {
+.controller('rodadasCtrl', function($scope, $state, roundDetail, sessionCtrl) {
 
   if (!sessionCtrl.get('token')){
       $state.go('login');
@@ -130,6 +134,19 @@ angular.module('app.controllers', ['ionic'])
     sessionCtrl.clear();
     $state.go('login');
   }
+
+  roundDetail(
+    function (response){
+      if (response.reason.status){
+        $scope.nRound = response.list[0].codigoRodada;
+        $scope.listRound = response.list
+        $scope.loading = false;
+      } else {
+        sessionCtrl.clear();
+        $state.go('login');
+      }
+    }
+  );
 
   $scope.meusDados = function(){
     $state.go('tabsController.meusDados');

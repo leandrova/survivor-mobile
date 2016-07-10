@@ -8,10 +8,25 @@
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-content padding="true" class="has-header">
-        <div class="item item-body " id="rodadas-list-item-container9">
-            <p id="rodadas-markdown8" style="margin-top:0px;color:#000000;" class=" ">Some friendly
-                <strong>markdown</strong>
-            </p>
+
+      <div ng-if="listRound" class="listData">
+
+        <ion-list>
+          <ion-item class="item-divider">Rodada {{nRound}}</ion-item>
+        </ion-list>
+        <div ng-repeat="item in listRound" class="item item-body row">
+          <div class="col">
+            {{item.siglaTimeA}}&nbsp;
+            <img style="width:30px" src="./img/escudos/{{item.siglaTimeA}}.png" title="{{item.nomeTimeA}}">
+          </div>
+          <div>X</div>
+          <div class="col">
+            {{item.siglaTimeB}}&nbsp;
+            <img style="width:30px" src="./img/escudos/{{item.siglaTimeB}}.png" title="{{item.nomeTimeB}}">
+          </div>
         </div>
+
+      </div>
+
     </ion-content>
 </ion-view>

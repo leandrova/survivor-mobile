@@ -1,17 +1,21 @@
-<ion-view title="Login" id="page5" hide-nav-bar="false">
+<ion-view title="Login" class="" hide-nav-bar="false">
+  <div id="login">
+    <div ng-if="loading" class="modal"><div class="loading"></div></div>
     <ion-content padding="true">
-        <form id="login-form1" class="list " >
-            <label class="item item-input item-stacked-label {{userRed}}" id="login-input1">
-                <input type="text" ng-model="formData.user" placeholder="E-mail">
+        <form id="login-form1" ng-if="login" class="">
+            <label id="login-input1">
+                <input type="text" ng-model="formData.user" placeholder="e-mail" class="{{userAnime}}">
             </label>
-            <label class="item item-input item-stacked-label {{passRed}}" id="login-input2">
-                <input type="password" ng-model="formData.pass" placeholder="Senha">
+            <label id="login-input2">
+                <input type="password" ng-model="formData.pass" placeholder="senha" class="{{passAnime}}">
             </label>
+            <div class="checkedLogin">
+                <input type="checkbox" ng-model="formData.svSe">
+                <span>Entrar automaticamente</span>
+            </div>
+            <button ng-click="authentication(formData)" id="login-button1" class="{{btnAnime}}">Entrar</button>
+            <div ng-bind-html="alert" ng-if="alert"></div>
         </form>
-        <form id="login-form2" class="list ">
-            <ion-toggle toggle-class="toggle-dark" ng-model="formData.svSe" ng-checked="false" id="login-toggle1" class=" manterConectado" >manter conectado?</ion-toggle>
-        </form>
-        <button ng-click="authentication(formData)" id="login-button1" class=" button button-dark button-block">Login</button>
-        <div ng-bind-html="alert" ng-if="alert"></div>
     </ion-content>
+  </div>
 </ion-view>

@@ -22,19 +22,29 @@ angular.module('app.services', ['ionic'])
   }
 }])
 
+.factory('animationShake', [function($scope){
+  return {
+    inc: function($scope, data){
+      $scope[data] = 'animationShake';
+
+      setTimeout(function(){
+        $scope[data] = '';
+      }, 300);
+    }
+  }
+}])
+
 .service('authentication', function(HOST_SERVICE, $http){
   return function(formData, callback){
     $http({
-      method: 'POST',
+      method: 'GET',
       url: HOST_SERVICE + '/authentication',
       headers: {
         'service-name': 'local',
-        'service-token': '12345'
-      },
-      data: {
-        user: formData.user,
-        pass: formData.pass,
-        saveSession: formData.saveSession
+        'service-token': '12345',
+        'user': formData.user,
+        'pass': formData.pass,
+        'saveSession': formData.saveSession
       },
       async: true,
       withCredentials: false,
@@ -89,6 +99,46 @@ angular.module('app.services', ['ionic'])
         var status = response.data.reason.status;
         if (response.data.reason.status){
           var list = response.data.map.list;
+        } else {
+          var description = response.data.reason.description;
+        }
+        callback({
+          list: list,
+          reason: {
+            status: status,
+            description: description
+          }
+        });
+      }
+    }, function errorCallback(response) {
+      callback({
+        reason: {
+          status: 0,
+          description: 'Ops!'
+        }
+      });
+    });
+  }
+})
+
+.service('roundDetail', function(HOST_SERVICE, $http, sessionCtrl){
+  return function(callback){
+    var list = [], description = [];
+    $http({
+      method: 'POST',
+      url: HOST_SERVICE + '/rounds/detail',
+      headers: {
+        'service-session': sessionCtrl.get('token')
+      },
+      async: true,
+      withCredentials: false,
+      timeout: 10000,
+      cache: false
+    }).then(function successCallback(response) {
+      if (response.status == 200){
+        var status = response.data.reason.status;
+        if (response.data.reason.status){
+          var list = response.data.roundDetail.list;
         } else {
           var description = response.data.reason.description;
         }

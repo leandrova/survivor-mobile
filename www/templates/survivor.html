@@ -1,4 +1,5 @@
-<ion-view title="Survivor" id="page6" hide-nav-bar="truee">
+<ion-view title="Survivor" id="home" class="back" hide-nav-bar="truee">
+    <div ng-if="loading" class="modal"><div class="loading"></div></div>
     <ion-nav-bar class="bar-dark">
       <ion-nav-buttons side="left">
           <button class="button button-icon ion-person" ng-click="meusDados()"></button>
@@ -9,18 +10,17 @@
     </ion-nav-bar>
     <ion-content padding="true" class="">
 
-      <div ng-if="loading" class="loading"></div>
+      <div ng-if="listMap" class="listData">
 
-      <div ng-if="listMap">
-        <ion-list id="survivor-list-1">
-          <ion-item class="item-divider" id="survivor-list-item-divider-1">Seus Palpites</ion-item>
+        <ion-list>
+          <ion-item class="item-divider">Seus Palpites</ion-item>
         </ion-list>
-        <div class="item item-body row" id="survivor-list-item-container-5">
+        <div class="item item-body row">
           <div class="col">Time</div>
           <div class="col">Rodada</div>
           <div class="col">Resultado</div>
         </div>
-        <div ng-repeat="item in listMap" class="item item-body row" id="survivor-list-item-container-5">
+        <div ng-repeat="item in listMap" class="item item-body row">
           <div class="col">
             <img style="width:30px" src="./img/escudos/{{item.siglaTime}}.png" title="{{item.nomeTime}}">
             &nbsp;{{item.siglaTime}}
