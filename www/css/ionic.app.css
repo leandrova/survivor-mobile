@@ -127,7 +127,35 @@ body {
 }
 
 .listData {
-  padding-top: 40px;
+}
+
+.center {
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.escudo {
+  width: 30px;
+}
+
+.flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.times {
+  height: 59px;
+}
+
+.scroll {
+  padding-top: 44px;
 }
 
 /* Original */
@@ -3551,7 +3579,6 @@ a.subdued {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  position: absolute;
   right: 0;
   left: 0;
   z-index: 9;
@@ -3977,11 +4004,11 @@ a.subdued {
   height: 44px; }
 
 .nav-bar-block {
-  position: absolute;
   top: 0;
   right: 0;
   left: 0;
-  z-index: 9; }
+  z-index: 9;
+  position: absolute; }
 
 .bar .back-button.hide,
 .bar .buttons .hide {
@@ -4024,7 +4051,6 @@ a.subdued {
   z-index: 5;
   width: 100%;
   height: 49px;
-  border-style: solid;
   border-top-width: 1px;
   background-size: 0;
   line-height: 49px; }
@@ -4711,7 +4737,6 @@ ion-tabs.tabs-color-active-dark .tab-item {
 /* If you change this, change platform.scss as well */
 .tabs-top > .tabs,
 .tabs.tabs-top {
-  top: 44px;
   padding-top: 0;
   background-position: bottom;
   border-top-width: 0;
@@ -5327,7 +5352,7 @@ ion-tabs.tabs-color-active-dark .tab-item {
   z-index: 2;
   display: block;
   margin: -1px;
-  padding: 16px;
+  padding: 4px;
   border-width: 1px;
   border-style: solid;
   font-size: 16px; }
@@ -8640,10 +8665,6 @@ a.button {
   .row-no-padding > .col {
     padding: 0; }
 
-.row + .row {
-  margin-top: -5px;
-  padding-top: 0; }
-
 .col {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -8743,6 +8764,15 @@ a.button {
 /* By default each grid column will evenly distribute */
 /* across the grid. However, you can specify individual */
 /* columns to take up a certain size of the available area */
+.col-5 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 5%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 5%;
+  -ms-flex: 0 0 5%;
+  flex: 0 0 5%;
+  max-width: 5%; }
+
 .col-10 {
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 10%;
@@ -8751,6 +8781,15 @@ a.button {
   -ms-flex: 0 0 10%;
   flex: 0 0 10%;
   max-width: 10%; }
+
+.col-15 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 15%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 15%;
+  -ms-flex: 0 0 15%;
+  flex: 0 0 15%;
+  max-width: 15%; }
 
 .col-20 {
   -webkit-box-flex: 0;
@@ -8770,6 +8809,15 @@ a.button {
   flex: 0 0 25%;
   max-width: 25%; }
 
+.col-30 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 30%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 30%;
+  -ms-flex: 0 0 30%;
+  flex: 0 0 30%;
+  max-width: 30%; }
+
 .col-33, .col-34 {
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 33.3333%;
@@ -8778,6 +8826,15 @@ a.button {
   -ms-flex: 0 0 33.3333%;
   flex: 0 0 33.3333%;
   max-width: 33.3333%; }
+
+.col-35 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 35%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 35%;
+  -ms-flex: 0 0 35%;
+  flex: 0 0 35%;
+  max-width: 35%; }
 
 .col-40 {
   -webkit-box-flex: 0;
@@ -8814,6 +8871,15 @@ a.button {
   -ms-flex: 0 0 66.6666%;
   flex: 0 0 66.6666%;
   max-width: 66.6666%; }
+
+.col-70 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 70%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 70%;
+  -ms-flex: 0 0 70%;
+  flex: 0 0 70%;
+  max-width: 70%; }
 
 .col-75 {
   -webkit-box-flex: 0;
@@ -9296,7 +9362,8 @@ a.button {
   z-index: 10; }
   [nav-bar-transition="ios"] [nav-bar="active"] .bar,
   [nav-bar-transition="ios"] [nav-bar="entering"] .bar {
-    background: transparent; }
+    background: transparent;
+    position: absolute; }
 
 [nav-bar-transition="ios"] [nav-bar="cached"] {
   display: block; }
@@ -9335,7 +9402,8 @@ a.button {
   z-index: 10; }
   [nav-bar-transition="android"] [nav-bar="active"] .bar,
   [nav-bar-transition="android"] [nav-bar="entering"] .bar {
-    background: transparent; }
+    background: transparent;
+    position: absolute; }
 
 [nav-bar-transition="android"] [nav-bar="cached"] {
   display: block; }

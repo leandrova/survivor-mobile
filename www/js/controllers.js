@@ -58,24 +58,36 @@ angular.module('app.controllers', ['ionic'])
 .controller('survivorCtrl', function($scope, $state, sessionCtrl, map) {
 
   if (!sessionCtrl.get('token')){
-      $state.go('login');
+    $state.go('login');
   }
 
   $scope.loading = true;
 
-  map(
-    function (response){
-      if (response.reason.status){
-        $scope.map = true;
-        $scope.title = response.title;
-        $scope.listMap = response.list
-        $scope.loading = false;
-      } else {
-        sessionCtrl.clear();
-        $state.go('login');
-      }
+  $scope.loadMap = function(status){
+    survivorCtrl = sessionCtrl.get('survivorCtrl');
+    if ((survivorCtrl)&&(!status)){
+      response = JSON.parse(survivorCtrl);
+      $scope.title = response.title;
+      $scope.listMap = response.list
+      $scope.loading = false;
+    } else {
+      map(
+        function (response){
+          if (response.reason.status){
+            $scope.map = true;
+            $scope.title = response.title;
+            $scope.listMap = response.list
+            $scope.loading = false;
+            sessionCtrl.set('survivorCtrl', JSON.stringify(response));
+          } else {
+            // sessionCtrl.clear();
+            // $state.go('login');
+            console.log('survivorCtrl', response);
+          }
+        }
+      );
     }
-  );
+  }
 
   $scope.logOut = function(){
     sessionCtrl.clear();
@@ -85,15 +97,20 @@ angular.module('app.controllers', ['ionic'])
   $scope.meusDados = function(){
     $state.go('tabsController.meusDados');
   }
+
+  $scope.doRefresh = function(){
+    $scope.loadMap(1);
+    $scope.$broadcast('scroll.refreshComplete');
+  }
+
+  $scope.loadMap(0);
 
 })
 
-.controller('mapaCtrl', function($scope, $state, sessionCtrl) {
+.controller('mapaCtrl', function($scope, $state, sessionCtrl, map) {
 
-  console.log(sessionCtrl.get('token'));
   if (!sessionCtrl.get('token')){
-      $state.go('login');
-      console.log(1);
+    $state.go('login');
   }
 
   $scope.logOut = function(){
@@ -104,6 +121,35 @@ angular.module('app.controllers', ['ionic'])
   $scope.meusDados = function(){
     $state.go('tabsController.meusDados');
   }
+
+  $scope.loadMap = function(status){
+    mapaCtrl = sessionCtrl.get('mapaCtrl');
+    if ((mapaCtrl)&&(!status)){
+      response = JSON.parse(mapaCtrl);
+      $scope.title = response.title;
+      $scope.listMap = response.list
+      $scope.loading = false;
+    } else {
+      map(
+        function (response){
+          console.log('=>',sessionCtrl.get('token'));
+          if (response.reason.status){
+            $scope.map = true;
+            $scope.title = response.title;
+            $scope.listMap = response.list
+            $scope.loading = false;
+            sessionCtrl.set('mapaCtrl', JSON.stringify(response));
+          } else {
+            // sessionCtrl.clear();
+            // $state.go('login');
+            console.log('mapaCtrl', response);
+          }
+        }
+      );
+    }
+  }
+
+  $scope.loadMap(0);
 
 })
 
@@ -135,22 +181,63 @@ angular.module('app.controllers', ['ionic'])
     $state.go('login');
   }
 
-  roundDetail(
-    function (response){
-      if (response.reason.status){
-        $scope.nRound = response.list[0].codigoRodada;
-        $scope.listRound = response.list
-        $scope.loading = false;
-      } else {
-        sessionCtrl.clear();
-        $state.go('login');
-      }
+  $scope.loading = true;
+
+  $scope.before = function(){
+    $scope.loading = true;
+    round = parseInt(sessionCtrl.get('round'))-1;
+    $scope.loadRodadas(round,1);
+  }
+
+  $scope.after = function(){
+    $scope.loading = true;
+    round = parseInt(sessionCtrl.get('round'))+1;
+    $scope.loadRodadas(round,1);
+  }
+
+  $scope.loadRodadas = function(round, status){
+    rodadasCtrl = sessionCtrl.get('rodadasCtrl');
+    if ((rodadasCtrl)&&(!status)){
+      response = JSON.parse(rodadasCtrl);
+      $scope.nRound = response.list[0].codigoRodada;
+      $scope.listRound = response.list
+      $scope.loading = false;
+    } else {
+      roundDetail(
+        round,
+        function (response){
+          $scope.loading = false;
+          if (response.reason.status){
+            $scope.nRound = response.list[0].codigoRodada;
+            sessionCtrl.set('round', round);
+            $scope.listRound = response.list
+            sessionCtrl.set('rodadasCtrl', JSON.stringify(response));
+          } else {
+            console.log('rodadasCtrl', response);
+            // sessionCtrl.clear();
+            // $state.go('login');
+          }
+        }
+      );
     }
-  );
+  }
 
   $scope.meusDados = function(){
     $state.go('tabsController.meusDados');
   }
+
+  $scope.doRefresh = function(){
+    round = sessionCtrl.get('round');
+    $scope.loadRodadas(round,1);
+    $scope.$broadcast('scroll.refreshComplete');
+  }
+
+  round = '';
+  if (sessionCtrl.get('round')){
+    round = sessionCtrl.get('round');
+  }
+
+  $scope.loadRodadas(round,0);
 
 })
 

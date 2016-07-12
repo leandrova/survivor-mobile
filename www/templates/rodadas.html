@@ -1,32 +1,37 @@
-<ion-view title="Rodadas" id="page9" class=" ">
-    <ion-nav-bar class="bar-dark">
-      <ion-nav-buttons side="left">
-          <button class="button button-icon ion-person" ng-click="meusDados()"></button>
-      </ion-nav-buttons>
-      <ion-nav-buttons side="right">
-        <button class="button button-icon ion-close-circled" ng-click="logOut()"></button>
-      </ion-nav-buttons>
-    </ion-nav-bar>
-    <ion-content padding="true" class="has-header">
-
-      <div ng-if="listRound" class="listData">
-
-        <ion-list>
-          <ion-item class="item-divider">Rodada {{nRound}}</ion-item>
-        </ion-list>
-        <div ng-repeat="item in listRound" class="item item-body row">
-          <div class="col">
-            {{item.siglaTimeA}}&nbsp;
-            <img style="width:30px" src="./img/escudos/{{item.siglaTimeA}}.png" title="{{item.nomeTimeA}}">
+<ion-view title="Rodadas">
+  <div ng-if="loading" class="modal"><div class="loading"></div></div>
+  <ion-nav-bar class="bar-dark">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon ion-person" ng-click="meusDados()"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <button class="button button-icon ion-close-circled" ng-click="logOut()"></button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content padding="false" class="has-header">
+    <ion-refresher on-refresh="doRefresh()" refreshing-icon="ion-loading-b"></ion-refresher>
+    <div ng-if="listRound" class="listData">
+      <ion-list>
+        <ion-item class="flex item-divider row">
+          <div class="col-15 center">
+            <button class="button button-icon ion-chevron-left" ng-click="before()"></button>
           </div>
-          <div>X</div>
-          <div class="col">
-            {{item.siglaTimeB}}&nbsp;
-            <img style="width:30px" src="./img/escudos/{{item.siglaTimeB}}.png" title="{{item.nomeTimeB}}">
+          <div class="col-70 col-center center">Rodada {{nRound}}</div>
+          <div class="col-15 center">
+            <button class="button button-icon ion-chevron-right" ng-click="after()"></button>
           </div>
+        </ion-item>
+      </ion-list>
+      <div ng-repeat="item in listRound" class="item item-body row row-center times">
+        <div class="col-20 col-center center">{{item.siglaTimeA}}</div>
+        <div class="col-20 col-center center"><img  class="escudo" src="./img/escudos/{{item.siglaTimeA}}.png"/></div>
+        <div class="col-5 col-center center">{{item.placarTimeA}}</div>
+        <div class="col-10 col-center center">x</div>
+        <div class="col-5 col-center center">{{item.placarTimeB}}</div>
+        <div class="col-20 col-center center"><img  class="escudo" src="./img/escudos/{{item.siglaTimeB}}.png" title="{{item.nomeTimeB}}"></div>
+        <div class="col-20 col-center center">{{item.siglaTimeB}}</div>
         </div>
-
       </div>
-
-    </ion-content>
+    </div>
+  </ion-content>
 </ion-view>

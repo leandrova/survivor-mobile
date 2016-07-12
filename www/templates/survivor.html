@@ -1,35 +1,29 @@
-<ion-view title="Survivor" id="home" class="back" hide-nav-bar="truee">
-    <div ng-if="loading" class="modal"><div class="loading"></div></div>
-    <ion-nav-bar class="bar-dark">
-      <ion-nav-buttons side="left">
-          <button class="button button-icon ion-person" ng-click="meusDados()"></button>
-      </ion-nav-buttons>
-      <ion-nav-buttons side="right">
-        <button class="button button-icon ion-close-circled" ng-click="logOut()"></button>
-      </ion-nav-buttons>
-    </ion-nav-bar>
-    <ion-content padding="true" class="">
-
-      <div ng-if="listMap" class="listData">
-
-        <ion-list>
-          <ion-item class="item-divider">Seus Palpites</ion-item>
-        </ion-list>
-        <div class="item item-body row">
-          <div class="col">Time</div>
-          <div class="col">Rodada</div>
-          <div class="col">Resultado</div>
-        </div>
-        <div ng-repeat="item in listMap" class="item item-body row">
-          <div class="col">
-            <img style="width:30px" src="./img/escudos/{{item.siglaTime}}.png" title="{{item.nomeTime}}">
-            &nbsp;{{item.siglaTime}}
-          </div>
-          <div class="col">{{item.codigoRodada}}</div>
-          <div class="col">{{item.resultado}}</div>
-        </div>
-
+<ion-view title="Survivor" id="home" class="back" hide-nav-bar="false">
+  <div ng-if="loading" class="modal"><div class="loading"></div></div>
+  <ion-nav-bar class="bar-dark">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon ion-person" ng-click="meusDados()"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <button class="button button-icon ion-close-circled" ng-click="logOut()"></button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content padding="false" class="">
+    <ion-refresher on-refresh="doRefresh()" refreshing-icon="ion-loading-b"></ion-refresher>
+    <div ng-if="listMap" class="listData">
+      <ion-list>
+        <ion-item class="item-divider row times">
+            <div class="col-50 col-center">Time</div>
+            <div class="col-25 col-center">Rodada</div>
+            <div class="col-25 col-center">Resultado</div>
+        </ion-item>
+      </ion-list>
+      <div ng-repeat="item in listMap" class="item item-body row times">
+        <div class="col-15 col-center"><img class="escudo" src="./img/escudos/{{item.siglaTime}}.png"></div>
+        <div class="col-35 col-center">{{item.nomeTime}}</div>
+        <div class="col-25 col-center center">{{item.codigoRodada}}</div>
+        <div class="col-25 col-center">{{item.resultado}}</div>
       </div>
-
-    </ion-content>
+    </div>
+  </ion-content>
 </ion-view>

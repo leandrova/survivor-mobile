@@ -122,14 +122,17 @@ angular.module('app.services', ['ionic'])
 })
 
 .service('roundDetail', function(HOST_SERVICE, $http, sessionCtrl){
-  return function(callback){
+  $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+  return function(roundNumber, callback){
     var list = [], description = [];
+    var data = 'roundNumber=' + roundNumber;
     $http({
       method: 'POST',
       url: HOST_SERVICE + '/rounds/detail',
       headers: {
         'service-session': sessionCtrl.get('token')
       },
+      data : data,
       async: true,
       withCredentials: false,
       timeout: 10000,
@@ -138,11 +141,13 @@ angular.module('app.services', ['ionic'])
       if (response.status == 200){
         var status = response.data.reason.status;
         if (response.data.reason.status){
+          var correntRound = response.data.roundDetail.correntRound;
           var list = response.data.roundDetail.list;
         } else {
           var description = response.data.reason.description;
         }
         callback({
+          correntRound: correntRound,
           list: list,
           reason: {
             status: status,
@@ -159,4 +164,6 @@ angular.module('app.services', ['ionic'])
       });
     });
   }
-});
+})
+
+;
