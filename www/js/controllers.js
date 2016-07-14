@@ -80,9 +80,12 @@ angular.module('app.controllers', ['ionic'])
             $scope.loading = false;
             sessionCtrl.set('survivorCtrl', JSON.stringify(response));
           } else {
-            // sessionCtrl.clear();
-            // $state.go('login');
-            console.log('survivorCtrl', response);
+            if (response.reason.error == '3000'){
+              sessionCtrl.clear();
+              $state.go('login');
+            } else{
+              console.log('survivorCtrl', response);
+            }
           }
         }
       );
@@ -107,7 +110,7 @@ angular.module('app.controllers', ['ionic'])
 
 })
 
-.controller('mapaCtrl', function($scope, $state, sessionCtrl, map) {
+.controller('mapaCtrl', function($scope, $state, sessionCtrl, map, players) {
 
   if (!sessionCtrl.get('token')){
     $state.go('login');
@@ -126,30 +129,65 @@ angular.module('app.controllers', ['ionic'])
     mapaCtrl = sessionCtrl.get('mapaCtrl');
     if ((mapaCtrl)&&(!status)){
       response = JSON.parse(mapaCtrl);
-      $scope.title = response.title;
+      $scope.jogador = response.classification.nickname;
       $scope.listMap = response.list
       $scope.loading = false;
     } else {
       map(
         function (response){
-          console.log('=>',sessionCtrl.get('token'));
           if (response.reason.status){
             $scope.map = true;
-            $scope.title = response.title;
+            $scope.jogador = response.classification.nickname;
             $scope.listMap = response.list
             $scope.loading = false;
             sessionCtrl.set('mapaCtrl', JSON.stringify(response));
           } else {
-            // sessionCtrl.clear();
-            // $state.go('login');
-            console.log('mapaCtrl', response);
+            if (response.reason.error == '3000'){
+              sessionCtrl.clear();
+              $state.go('login');
+            } else{
+              console.log('mapaCtrl', response);
+            }
           }
         }
       );
     }
   }
 
+  $scope.loadPlayers = function(status){
+    listPlayers = sessionCtrl.get('listPlayers');
+    if ((listPlayers)&&(!status)){
+      response = JSON.parse(listPlayers);
+      $scope.listPlayers = response.list
+      $scope.loading = false;
+    } else {
+      players(
+        function (response){
+          if (response.reason.status){
+            $scope.listPlayers = response.list
+            $scope.loading = false;
+            sessionCtrl.set('listPlayers', JSON.stringify(response));
+          } else {
+            if (response.reason.error == '3000'){
+              sessionCtrl.clear();
+              $state.go('login');
+            } else{
+              console.log('listPlayers', response);
+            }
+          }
+        }
+      );
+    }
+  }
+
+  $scope.doRefresh = function(){
+    $scope.loadMap(1);
+    // $scope.loadPlayers(1);
+    $scope.$broadcast('scroll.refreshComplete');
+  }
+
   $scope.loadMap(0);
+  $scope.loadPlayers(0);
 
 })
 
@@ -209,13 +247,22 @@ angular.module('app.controllers', ['ionic'])
           $scope.loading = false;
           if (response.reason.status){
             $scope.nRound = response.list[0].codigoRodada;
-            sessionCtrl.set('round', round);
+
+            if (!round){
+              sessionCtrl.set('round', $scope.nRound);
+            } else {
+              sessionCtrl.set('round', round);
+            }
+
             $scope.listRound = response.list
             sessionCtrl.set('rodadasCtrl', JSON.stringify(response));
           } else {
-            console.log('rodadasCtrl', response);
-            // sessionCtrl.clear();
-            // $state.go('login');
+            if (response.reason.error == '3000'){
+              sessionCtrl.clear();
+              $state.go('login');
+            } else{
+              console.log('rodadasCtrl', response);
+            }
           }
         }
       );

@@ -13,10 +13,21 @@
     <div ng-if="listMap" class="listData">
       <ion-list>
         <ion-item class="item-divider row times">
+            <div class="col-100 col-center center">
+              <button class="button" modal-select="" ng-model="someModel" options="selectables" modal-title="Select a number">
+                {{jogador}}
+                <div class="option">
+                  {{listPlayers}}
+                </div>
+              </button>
+            </div>
+        </ion-item>
+        <ion-item class="item-divider row">
             <div class="col-50 col-center">Time</div>
             <div class="col-25 col-center">Rodada</div>
             <div class="col-25 col-center">Resultado</div>
         </ion-item>
+
       </ion-list>
       <div ng-repeat="item in listMap" class="item item-body row times">
         <div class="col-15 col-center"><img class="escudo" src="./img/escudos/{{item.siglaTime}}.png"></div>
@@ -27,3 +38,4 @@
     </div>
   </ion-content>
 </ion-view>
+
